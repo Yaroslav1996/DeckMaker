@@ -1,0 +1,47 @@
+﻿@model HS_RoS_DeckPredictions.ViewModels.AddCardToDeckViewModel
+@{
+    ViewBag.Title = "Add card to" + Model.Deck.Name;
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+@functions
+{
+    
+
+    public static string ClassColor(string dc)
+    {
+        string str = "";
+        if (dc == "Paladin")
+            str = "yellow";
+        else if (dc == "Rogue")
+            str = "black";
+        else if (dc == "Mage")
+            str = "lightblue";
+        else if (dc == "Warrior")
+            str = "red";
+        else if (dc == "Druid")
+            str = "brown";
+        else if (dc == "Hunter")
+            str = "lightgreen";
+        else if (dc == "Priest")
+            str = "gray";
+        else if (dc == "Warlock")
+            str = "purple";
+        else if (dc == "Shaman")
+            str = "darkblue";
+
+        return str;
+    }
+
+}
+
+@using (Html.BeginForm("AddCard", "Home"))
+{
+    <div class="jumbotron">
+        @Html.DropDownListFor(m => m.CardId, new SelectList(Model.Cards, "CardId", "Name"), "Cards", new { @class = "form-control" });
+    </div>
+
+    @Html.EditorFor(m => m.Deck, Model.Deck);
+
+    <button type="submit" class="btn btn-primary">Add</button>
+}

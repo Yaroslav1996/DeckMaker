@@ -1,0 +1,41 @@
+﻿@model HS_RoS_DeckPredictions.Models.Deck
+
+@{
+    ViewBag.Title = "NewDeck";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+@functions
+{
+    public static List<string> GetClasses()
+    {
+        return HS_RoS_DeckPredictions.Models.Classes.ClassesNames;
+    }
+}
+
+<h2>NewDeck</h2>
+
+@using (Html.BeginForm("SaveDeck", "Home"))
+{
+    <div class="form-group">
+        @Html.LabelFor(d => d.Name)
+        @Html.TextBoxFor(d => d.Name)
+    </div>
+
+    <div class="form-group">
+        @Html.LabelFor(d => d.DeckClass)
+        @Html.DropDownListFor(c => c.DeckClass, new SelectList(GetClasses()), "", new { @class = "form-control" });
+    </div>
+
+    <div class="form-group">
+        @Html.LabelFor(d => d.DeckType)
+        @Html.TextBoxFor(d => d.DeckType)
+    </div>
+
+    <div class="form-group">
+        @Html.LabelFor(d => d.Rank)
+        @Html.TextBoxFor(d => d.Rank)
+    </div>
+
+    <button type="submit" class="btn btn-primary">Save</button>
+}

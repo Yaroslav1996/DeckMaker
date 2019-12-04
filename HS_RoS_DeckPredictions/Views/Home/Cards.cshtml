@@ -1,0 +1,67 @@
+﻿@model HS_RoS_DeckPredictions.ViewModels.DecksViewModel
+@{
+    ViewBag.Title = "Cards";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+@functions
+{
+    public static string ClassColor(string dc)
+    {
+        string str = "";
+        if (dc == "Paladin")
+            str = "yellow";
+        else if (dc == "Rogue")
+            str = "black";
+        else if (dc == "Mage")
+            str = "lightblue";
+        else if (dc == "Warrior")
+            str = "red";
+        else if (dc == "Druid")
+            str = "brown";
+        else if (dc == "Hunter")
+            str = "lightgreen";
+        else if (dc == "Priest")
+            str = "gray";
+        else if (dc == "Warlock")
+            str = "purple";
+        else if (dc == "Shaman")
+            str = "darkblue";
+
+        return str;
+    }
+
+    public static string DeckName(List<HS_RoS_DeckPredictions.Models.Deck> decks)
+    {
+        if (decks.Count == 1)
+            return decks.Single().Name.ToString() + " - ";
+        else
+            return null;
+    }
+}
+
+<div class="jumbotron">
+    <h1>@DeckName(Model.Decks) Cards</h1>
+    @Html.ActionLink("Decks", "Index", null, new { @class = "btn btn-primary" })
+    @if (Model.Decks.Count != 1) { @Html.ActionLink("New Card", "NewCard", null, new { @class = "btn btn-primary" })}
+    @if (Model.Decks.Count == 1) { @Html.ActionLink("Add Card", "AddCardTo", Model.Decks.Single(), new { @class = "btn btn-primary" })}
+
+    <table class="table table-bordered table-hover">
+        <tbody>
+            <tr>
+                <td>Name</td>
+                <td>Class</td>
+                <td>Cost</td>
+            </tr>
+
+            @foreach (var i in Model.Cards)
+            {
+                <tr style="background-color: @ClassColor(i.CardClass)">
+                    <td>@i.Name</td>
+                    <td>@i.CardClass</td>
+                    <td>@i.Cost</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>

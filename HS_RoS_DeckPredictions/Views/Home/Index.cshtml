@@ -1,0 +1,59 @@
+﻿@model HS_RoS_DeckPredictions.ViewModels.DecksViewModel
+@{
+    ViewBag.Title = "Home Page";
+}
+
+@functions
+{
+    public static string ClassColor(string dc)
+    {
+        string str = "";
+        if (dc == "Paladin")
+            str = "yellow";
+        else if (dc == "Rogue")
+            str = "black";
+        else if (dc == "Mage")
+            str = "lightblue";
+        else if (dc == "Warrior")
+            str = "red";
+        else if (dc == "Druid")
+            str = "brown";
+        else if (dc == "Hunter")
+            str = "lightgreen";
+        else if (dc == "Priest")
+            str = "gray";
+        else if (dc == "Warlock")
+            str = "Purple";
+        else if (dc == "Shaman")
+            str = "darkblue";
+
+        return str;
+    }
+}
+
+<div class="jumbotron">
+    <h1>Decks</h1>
+    @Html.ActionLink("Cards", "Cards", null, new { @class = "btn btn-primary"})
+    @Html.ActionLink("New deck", "NewDeck", null, new { @class = "btn btn-primary"})
+
+    <table class="table table-bordered table-hover">
+        <tbody>
+            <tr>
+                <td>Name</td>
+                <td>Class</td>
+                <td>Type</td>
+                <td>Rank</td>
+            </tr>
+
+            @foreach (var i in Model.Decks)
+            {
+                <tr style="background-color: @ClassColor(i.DeckClass)">
+                    <td>@Html.ActionLink(i.Name, "CardsInDeck", new { deckId = i.DeckId})</td>
+                    <td>@i.DeckClass</td>
+                    <td>@i.DeckType</td>
+                    <td>@i.Rank/5</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>

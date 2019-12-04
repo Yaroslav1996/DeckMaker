@@ -1,0 +1,62 @@
+﻿@model HS_RoS_DeckPredictions.Models.Card
+
+@{
+    ViewBag.Title = "NewCard";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+@functions
+{
+    public static string ClassColor(string dc)
+    {
+        string str = "";
+        if (dc == "Paladin")
+            str = "yellow";
+        else if (dc == "Rogue")
+            str = "black";
+        else if (dc == "Mage")
+            str = "lightblue";
+        else if (dc == "Warrior")
+            str = "red";
+        else if (dc == "Druid")
+            str = "brown";
+        else if (dc == "Hunter")
+            str = "lightgreen";
+        else if (dc == "Priest")
+            str = "gray";
+        else if (dc == "Warlock")
+            str = "purple";
+        else if (dc == "Shaman")
+            str = "darkblue";
+
+        return str;
+    }
+
+    public static List<string> GetClasses()
+    {
+        return HS_RoS_DeckPredictions.Models.Classes.ClassesNames;
+    }
+
+}
+
+<h2>New Card</h2>
+
+@using (Html.BeginForm("SaveCard", "Home"))
+{
+    <div class="form-group">
+        @Html.LabelFor(c => c.Name)
+        @Html.TextBoxFor(c => c.Name)
+    </div>
+
+    <div class="form-group">
+        @Html.LabelFor(c => c.CardClass)
+        @Html.DropDownListFor(c => c.CardClass, new SelectList(GetClasses()), "", new { @class = "form-control" });
+    </div>
+
+    <div class="form-group">
+        @Html.LabelFor(c => c.Cost)
+        @Html.TextBoxFor(c => c.Cost)
+    </div>
+
+    <button type="submit" class="btn btn-primary">Save</button>
+}
