@@ -1,7 +1,7 @@
 ﻿@model HS_RoS_DeckPredictions.Models.Deck
 
 @{
-    ViewBag.Title = "NewDeck";
+    ViewBag.Title = GetHeader(Model);
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
@@ -11,9 +11,14 @@
     {
         return HS_RoS_DeckPredictions.Models.Classes.ClassesNames;
     }
+
+    private static string GetHeader(HS_RoS_DeckPredictions.Models.Deck deck)
+    {
+        return deck.DeckId == 0 ? "New deck" : "Edit deck";
+    }
 }
 
-<h2>NewDeck</h2>
+    <h2>@GetHeader(Model)</h2>
 
 @using (Html.BeginForm("SaveDeck", "Home"))
 {
@@ -24,7 +29,7 @@
 
     <div class="form-group">
         @Html.LabelFor(d => d.DeckClass)
-        @Html.DropDownListFor(c => c.DeckClass, new SelectList(GetClasses()), "", new { @class = "form-control" });
+        @Html.DropDownListFor(c => c.DeckClass, new SelectList(GetClasses()), "", new { @class = "form-control" })
     </div>
 
     <div class="form-group">
@@ -36,6 +41,12 @@
         @Html.LabelFor(d => d.Rank)
         @Html.TextBoxFor(d => d.Rank)
     </div>
+
+    if (Model.DeckId != 0)
+    {
+        @Html.HiddenFor(d => d.DeckId)
+    }
+
 
     <button type="submit" class="btn btn-primary">Save</button>
 }
