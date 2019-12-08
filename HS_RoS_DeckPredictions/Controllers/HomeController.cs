@@ -133,5 +133,10 @@ namespace HS_RoS_DeckPredictions.Controllers
 
             return RedirectToAction("Index");
         }
+
+        public ActionResult CancelDeckEdit()
+        {
+            return RedirectToAction("Index");
+        }
     }
 }

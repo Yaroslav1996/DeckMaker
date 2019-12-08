@@ -47,6 +47,8 @@
         @Html.HiddenFor(d => d.DeckId)
     }
 
-
-    <button type="submit" class="btn btn-primary">Save</button>
+<div class="btn-group">
+    <button type="submit" class="btn btn-primary btn-success">Save</button>
+    @Html.ActionLink("Cancel", "CancelDeckEdit", null, new { @class = "btn btn-primary btn-warning"})
+</div>
 }
