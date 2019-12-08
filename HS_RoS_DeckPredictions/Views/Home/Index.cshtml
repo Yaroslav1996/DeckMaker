@@ -47,11 +47,17 @@
 
             @foreach (var i in Model.Decks)
             {
-                <tr style="background-color: @ClassColor(i.DeckClass)">
+                <tr style="justify-content: left; background-color: @ClassColor(i.DeckClass);">
                     <td>@Html.ActionLink(i.Name, "CardsInDeck", new { deckId = i.DeckId})</td>
                     <td>@i.DeckClass</td>
                     <td>@i.DeckType</td>
                     <td>@i.Rank/5</td>
+                    <td >
+                        <div class="btn-group">
+                            @Html.ActionLink("Edit", "EditDeck", i, new { @style = "color: black; background-color: lightgray;", @class = "btn"})
+                            @Html.ActionLink("Delete", "DeleteDeck", new { deckId = i.DeckId }, new { @style = "color: black; background-color: lightcoral;", @class = "btn"})
+                        </div>
+                    </td>
                 </tr>
             }
         </tbody>

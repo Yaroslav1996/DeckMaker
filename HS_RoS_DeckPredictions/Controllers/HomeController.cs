@@ -5,6 +5,7 @@ using System.Web;
 using System.Web.Mvc;
 using HS_RoS_DeckPredictions.Models;
 using HS_RoS_DeckPredictions.ViewModels;
+using System.Data.Entity;
 
 namespace HS_RoS_DeckPredictions.Controllers
 {
@@ -70,6 +71,7 @@ namespace HS_RoS_DeckPredictions.Controllers
             return View(newDeck);
         }
 
+        [HttpPost]
         public ActionResult SaveDeck(Deck deck)
         {
             if (deck.DeckId == 0)
@@ -77,8 +79,37 @@ namespace HS_RoS_DeckPredictions.Controllers
                 _context.Decks.Add(deck);
                 _context.SaveChanges();
             }
+            else if (_context.Decks.Where(d => d.DeckId == deck.DeckId).Count() == 1)
+            {
+                Deck editedDeck = _context.Decks.First(d => d.DeckId == deck.DeckId);
+
+                editedDeck.Name = deck.Name;
+                editedDeck.DeckType = deck.DeckType;
+                editedDeck.DeckClass = deck.DeckClass;
+                editedDeck.Rank = deck.Rank;
+
+                _context.SaveChanges();
+            }
 
             return RedirectToAction("Index");
+        }
+
+        public ActionResult EditDeck(Deck deck)
+        {
+            return View("NewDeck", deck);
+        }
+
+        public ActionResult DeleteDeck(int? deckId)
+        {
+            if (_context.Decks.Where(d => d.DeckId == deckId).Count() == 1)
+            {
+                Deck deck = _context.Decks.First(d => d.DeckId == deckId);
+                _context.Decks.Remove(deck);
+                _context.SaveChanges();
+                return RedirectToAction("Index");
+            }
+
+            return View("Error");
         }
 
         public ActionResult AddCardTo(Deck deck)
@@ -91,6 +122,7 @@ namespace HS_RoS_DeckPredictions.Controllers
             return View(model);
         }
 
+
         [HttpPost]
         public ActionResult AddCard(AddCardToDeckViewModel model)
         {
@@ -99,6 +131,11 @@ namespace HS_RoS_DeckPredictions.Controllers
             dd.Cards.Add(_context.Cards.Single(c => c.CardId == model.CardId));
             _context.SaveChanges();
 
+            return RedirectToAction("Index");
+        }
+
+        public ActionResult CancelDeckEdit()
+        {
             return RedirectToAction("Index");
         }
     }
