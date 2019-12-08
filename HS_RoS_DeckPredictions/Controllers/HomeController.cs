@@ -99,6 +99,19 @@ namespace HS_RoS_DeckPredictions.Controllers
             return View("NewDeck", deck);
         }
 
+        public ActionResult DeleteDeck(int? deckId)
+        {
+            if (_context.Decks.Where(d => d.DeckId == deckId).Count() == 1)
+            {
+                Deck deck = _context.Decks.First(d => d.DeckId == deckId);
+                _context.Decks.Remove(deck);
+                _context.SaveChanges();
+                return RedirectToAction("Index");
+            }
+
+            return View("Error");
+        }
+
         public ActionResult AddCardTo(Deck deck)
         {
             Deck dd = _context.Decks.ToList().Where(d => d.DeckId == deck.DeckId).Single();
@@ -108,6 +121,7 @@ namespace HS_RoS_DeckPredictions.Controllers
             AddCardToDeckViewModel model = new AddCardToDeckViewModel(dd, cd);
             return View(model);
         }
+
 
         [HttpPost]
         public ActionResult AddCard(AddCardToDeckViewModel model)
